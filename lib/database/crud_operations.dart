@@ -3,6 +3,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:student_getx/database/fuctions.dart';
 import 'package:student_getx/database/models.dart';
@@ -30,8 +32,9 @@ Future<void> registerStudent(
         name: name,
         phone: phone,
         id: -1);
-    DbFuctions? db;
-    db!.addStudent(add);
+    final getter = Get.put(DbFuctions());
+
+    getter.addStudent(add);
     showSnackBar(context, 'Register Successful', Colors.green);
     Navigator.pop(context);
   }
@@ -59,8 +62,9 @@ Future<void> editStudent(context, File? image, String name, String domain,
     existingStudent.phone = phone;
 
     await editbox.put(id, existingStudent);
-    DbFuctions? db;
-    db!.getStudent();
+    final getter = Get.put(DbFuctions());
+
+    getter.getStudent();
     Navigator.pop(context);
   }
 }
@@ -93,8 +97,8 @@ void delete(BuildContext context, int? id) {
 Future<void> dlt(context, int? id) async {
   final remove = await Hive.openBox<Studentupdate>('student');
   remove.delete(id);
-  DbFuctions? db;
-  db!.getStudent;
+  final getter = Get.put(DbFuctions());
+  getter.getStudent;
   showSnackBar(context, 'Deleted', Colors.red);
   Navigator.pop(context);
 }

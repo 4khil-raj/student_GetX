@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:student_getx/controller/student_controller.dart';
 import 'package:student_getx/database/fuctions.dart';
 
 ValueNotifier<bool> scroll = ValueNotifier(false);
@@ -18,12 +19,16 @@ class _CustomListState extends State<CustomList> {
   @override
   void initState() {
     super.initState();
-    getter.getStudent();
+    // getter.getStudent();
+    // controller.students;
   }
 
   final getter = Get.put(DbFuctions());
+  final controller = Get.put(StudentContoller());
   @override
   Widget build(BuildContext context) {
+    print(controller.StudentsList.length);
+
     return Column(
       children: [
         //   SizedBox(
@@ -48,78 +53,88 @@ class _CustomListState extends State<CustomList> {
         //   ),
         // )
 
-        Obx(
-          () => ListView.builder(itemBuilder: (BuildContext context, index) {
-            final studentdata = getter.studentList.reversed.toList()[index];
-            return InkWell(
-              onTap: () {
-                // bottomSheet(
-                //     context,
-                //     studentdata.name!,
-                //     studentdata.domain!,
-                //     studentdata.place!,
-                //     studentdata.phone!,
-                //     studentdata.image!);
-              },
-              child: Slidable(
-                endActionPane: ActionPane(motion: StretchMotion(), children: [
-                  SlidableAction(
-                      backgroundColor: Colors.red,
-                      icon: Icons.delete,
-                      label: 'Remove',
-                      onPressed: (context) {
-                        // delete(context, studentdata.id);
-                      }),
-                  SlidableAction(
-                      label: 'Edit',
-                      icon: Icons.edit,
-                      backgroundColor: const Color.fromARGB(255, 33, 243, 72),
-                      onPressed: (context) {
-                        // Navigator.push(
-                        //     context,
-                        //     // MaterialPageRoute(
-                        //     //     builder: (reg) => RegisterScreen(
-                        //     //           isEdit: true,
-                        //     //           value: studentdata,
-                        //     //         ))
-                        //             );
-                      })
-                ]),
-                child: Container(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 6, top: 12, bottom: 12),
-                        child: CircleAvatar(
-                          radius: 41,
-                          backgroundImage: FileImage(File(studentdata.image!)),
+        Expanded(
+          child: Obx(
+            () => ListView.builder(
+                itemCount: getter.studentList.length,
+                itemBuilder: (context, index) {
+                  final studentdata =
+                      getter.studentList.reversed.toList()[index];
+                  return InkWell(
+                    onTap: () {
+                      // bottomSheet(
+                      //     context,
+                      //     studentdata.name!,
+                      //     studentdata.domain!,
+                      //     studentdata.place!,
+                      //     studentdata.phone!,
+                      //     studentdata.image!);
+                    },
+                    child: Slidable(
+                      endActionPane:
+                          ActionPane(motion: StretchMotion(), children: [
+                        SlidableAction(
+                            backgroundColor: Colors.red,
+                            icon: Icons.delete,
+                            label: 'Remove',
+                            onPressed: (context) {
+                              // delete(context, studentdata.id);
+                            }),
+                        SlidableAction(
+                            label: 'Edit',
+                            icon: Icons.edit,
+                            backgroundColor:
+                                const Color.fromARGB(255, 33, 243, 72),
+                            onPressed: (context) {
+                              // Navigator.push(
+                              //     context,
+                              //     // MaterialPageRoute(
+                              //     //     builder: (reg) => RegisterScreen(
+                              //     //           isEdit: true,
+                              //     //           value: studentdata,
+                              //     //         ))
+                              //             );
+                            })
+                      ]),
+                      child: Obx(
+                        () => Container(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 6, top: 12, bottom: 12),
+                                child: CircleAvatar(
+                                  radius: 41,
+                                  backgroundImage:
+                                      FileImage(File(studentdata.image!)),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 30,
+                              ),
+                              Text(
+                                studentdata.name!.toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 26,
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        studentdata.name!.toUpperCase(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 26,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }),
+                    ),
+                  );
+                }),
+          ),
         ),
       ],
     );

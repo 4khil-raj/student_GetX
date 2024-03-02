@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:student_getx/database/fuctions.dart';
 import 'package:student_getx/database/models.dart';
+import 'package:student_getx/views/register.dart';
 import 'package:student_getx/widget/home_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,19 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
           child: FloatingActionButton.extended(
             backgroundColor: Colors.white,
             onPressed: () {
-              // Navigator.push(
-              //     context,
-              // MaterialPageRoute(
-              //     builder: (reg) => RegisterScreen(
-              //           isEdit: false,
-              //         )));
+              Get.to(RegisterScreen(isEdit: false));
             },
             icon: Icon(
               Icons.add,
               size: 30,
               color: const Color.fromARGB(255, 0, 0, 0),
             ),
-            label: Text("Add Student",
+            label: Text(controller.studentList.length.toString(),
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
