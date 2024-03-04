@@ -9,6 +9,7 @@ class StudentContoller extends GetxController {
   List<Studentupdate> students = [];
   List<Studentupdate> get StudentsList => students;
   RxString selectedimage = ''.obs;
+  RxString searchtext = ''.obs;
 
   getImage() async {
     final picker = ImagePicker();
@@ -16,5 +17,9 @@ class StudentContoller extends GetxController {
     if (pickedimage != null) {
       selectedimage.value = pickedimage.path.toString();
     }
+  }
+
+  search(String value) {
+    searchtext = value.obs;
   }
 }

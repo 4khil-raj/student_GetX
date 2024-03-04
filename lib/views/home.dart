@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:student_getx/controller/student_controller.dart';
 import 'package:student_getx/database/fuctions.dart';
 import 'package:student_getx/database/models.dart';
 import 'package:student_getx/views/register.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final controller = Get.put(DbFuctions());
+  final statemange = Get.put(StudentContoller());
   final gets = DbFuctions();
   String searchText = '';
   Timer? debouncer;
@@ -100,26 +102,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 40,
                                     child: TextFormField(
                                       onChanged: (values) {
-                                        // value.getsearchText(values);
+                                        statemange.search(values);
                                         onSearchChange(values);
                                       },
                                       controller: searchControler,
                                       decoration: InputDecoration(
-                                          suffixIcon: searchText.isEmpty
-                                              ? Icon(
-                                                  Icons.mic,
-                                                  color: Colors.black,
-                                                )
-                                              : IconButton(
-                                                  onPressed: () {
-                                                    // searchControler.clear();
-                                                    // value.getsearchText('');
-                                                    // contoller.getStudent();
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.clear,
-                                                    color: Colors.black,
-                                                  )),
+                                          suffixIcon:
+                                              statemange.searchtext.isEmpty
+                                                  ? Icon(
+                                                      Icons.mic,
+                                                      color: Colors.black,
+                                                    )
+                                                  : IconButton(
+                                                      onPressed: () {
+                                                        searchControler.clear();
+                                                        // .getsearchText('');
+                                                        gets.getStudent();
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.clear,
+                                                        color: Colors.black,
+                                                      )),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                                 color: const Color.fromARGB(
