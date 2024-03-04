@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:student_getx/database/fuctions.dart';
 import 'package:student_getx/database/models.dart';
 import 'package:student_getx/views/home.dart';
 

@@ -30,6 +30,7 @@ class DbFuctions extends GetxController {
     final studentDb = await Hive.openBox<Studentupdate>('student');
     studentList.value.clear();
     studentList.value.addAll(studentDb.values);
+
     //studentList.value.sort((a, b) => a.name.compareTo(b.name));
     studentList.refresh();
   }

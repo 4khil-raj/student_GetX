@@ -32,6 +32,7 @@ Future<void> registerStudent(
         name: name,
         phone: phone,
         id: -1);
+
     final getter = Get.put(DbFuctions());
 
     getter.addStudent(add);
@@ -98,7 +99,7 @@ Future<void> dlt(context, int? id) async {
   final remove = await Hive.openBox<Studentupdate>('student');
   remove.delete(id);
   final getter = Get.put(DbFuctions());
-  getter.getStudent;
+  getter.getStudent();
   showSnackBar(context, 'Deleted', Colors.red);
   Navigator.pop(context);
 }

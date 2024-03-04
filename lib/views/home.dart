@@ -19,18 +19,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final controller = Get.put(DbFuctions());
+  final gets = DbFuctions();
+  String searchText = '';
+  Timer? debouncer;
   @override
   void initState() {
-    controller.getStudent();
     super.initState();
+    gets.studentList;
+    gets.getStudent();
+
     searchControler.removeListener(() {
       searchText;
     });
   }
-
-  final controller = Get.put(DbFuctions());
-  String searchText = '';
-  Timer? debouncer;
 
   final searchControler = TextEditingController();
   @override
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               size: 30,
               color: const Color.fromARGB(255, 0, 0, 0),
             ),
-            label: Text(controller.studentList.length.toString(),
+            label: Text('Add Student',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -103,22 +105,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                       controller: searchControler,
                                       decoration: InputDecoration(
-                                          suffixIcon:
-                                              searchControler.text.isEmpty
-                                                  ? Icon(
-                                                      Icons.mic,
-                                                      color: Colors.black,
-                                                    )
-                                                  : IconButton(
-                                                      onPressed: () {
-                                                        // searchControler.clear();
-                                                        // value.getsearchText('');
-                                                        // contoller.getStudent();
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.clear,
-                                                        color: Colors.black,
-                                                      )),
+                                          suffixIcon: searchText.isEmpty
+                                              ? Icon(
+                                                  Icons.mic,
+                                                  color: Colors.black,
+                                                )
+                                              : IconButton(
+                                                  onPressed: () {
+                                                    // searchControler.clear();
+                                                    // value.getsearchText('');
+                                                    // contoller.getStudent();
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.clear,
+                                                    color: Colors.black,
+                                                  )),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                                 color: const Color.fromARGB(
@@ -174,14 +175,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (debouncer?.isActive ?? false) debouncer?.cancel();
     debouncer = Timer(Duration(milliseconds: 200), () {
-      if (this.searchText != searchControler) {
+      if (searchText != searchControler) {
         final filterdStudent = students
             .where((students) => students.name!
                 .toLowerCase()
                 .trim()
                 .contains(values.toLowerCase().trim()))
             .toList();
-        // studentlist.value = filterdStudent;
+        controller.studentList.value = filterdStudent;
       }
     });
   }

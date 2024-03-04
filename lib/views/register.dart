@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (widget.isEdit) {
       contactController.text = widget.value!.phone.toString();
       studentnameContoller.text = widget.value!.name.toString();
-      //controller.selectedimage.value = widget.value!.image;
+      controller.selectedimage.value = widget.value!.image.toString();
       selectedDomain = widget.value!.domain;
       selectedPlace = widget.value!.place;
     }
@@ -208,6 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 int.parse(contactController.text),
                                 controller.selectedimage.toString(),
                                 _formKey);
+                            controller.selectedimage.value = '';
                           } else {
                             studentnameContoller.clear();
                             contactController.clear();
@@ -234,14 +235,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     : InkWell(
                         onTap: () {
                           if (_formKey.currentState!.validate() &&
-                              studentnameContoller.text.isNotEmpty &&
-                              contactController.text.isNotEmpty &&
-                              selectedDomain != null &&
-                              selectedPlace != null &&
-                              selectedImage!.path.isNotEmpty) {
+                                  studentnameContoller.text.isNotEmpty &&
+                                  contactController.text.isNotEmpty &&
+                                  selectedDomain != null &&
+                                  selectedPlace != null
+                              //  selectedImage!.path.isNotEmpty
+                              ) {
                             editStudent(
                                 context,
-                                selectedImage,
+                                File(controller.selectedimage.toString()),
                                 studentnameContoller.text,
                                 selectedDomain.toString(),
                                 selectedPlace.toString(),
