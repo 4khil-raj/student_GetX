@@ -1,4 +1,4 @@
-# student_getx
+# student_GetX
 
 A new Flutter project.
 
